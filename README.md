@@ -1,5 +1,4 @@
-<!-- Hero image placeholder — generate with ChatGPT prompt below -->
-<!-- ![Top Crawler](assets/social-preview.png) -->
+![Top Crawler](assets/social-preview.png)
 
 ![Showcase](https://img.shields.io/badge/type-showcase-purple?style=flat-square)
 ![Python](https://img.shields.io/badge/python-3.14+-blue?style=flat-square)
