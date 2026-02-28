@@ -7,125 +7,59 @@
 
 # Top Crawler
 
-**An undetectable, AI-powered web crawler that defeats modern anti-bot systems at every layer.**
+**An LLM-powered, privacy-first web crawler with real-time intelligent monitoring.**
 
-Built to prove a point: current bot detection technology has limits. Top Crawler demonstrates that a well-engineered system can pass TLS fingerprinting, HTTP/2 analysis, browser fingerprinting, behavioral analysis, and network-level detection — simultaneously — while leaving zero trace back to the operator.
+A modular Python web crawler featuring AI-driven real-time monitoring, automatic configuration optimization, and comprehensive privacy controls. The integrated local LLM continuously monitors crawl performance, automatically halts on critical issues, and suggests optimal settings for each target domain.
 
-Designed for security researchers, penetration testers, and web developers who need to understand the real capabilities and limitations of anti-bot defenses.
-
----
-
-## The Invisibility Hierarchy
-
-Every design decision follows a strict 4-level defensive posture, applied in priority order:
-
-| Level | Principle | What It Means |
-|-------|-----------|---------------|
-| **1. Invisible** | No detection at all | The crawler leaves zero trace. No fingerprint anomalies, no timing artifacts, no network signatures. |
-| **2. Indistinguishable** | Appears as a normal human | If detection occurs, the system presents a consistent, realistic human persona. Never identified as a crawler. |
-| **3. Untraceable** | Nothing links to the operator | If identified as automated, no identity, location, or fingerprint connects back to the real operator. |
-| **4. Minimal Exposure** | Reveal only what's necessary | At all times, only the minimum required information is transmitted. No voluntary data leakage. |
-
-This hierarchy governs every layer — from TLS handshakes to DNS resolution to behavioral simulation.
+> Designed for ethical research, data archival, and robust media collection.
 
 ---
 
-## Architecture Highlights
+## Key Capabilities
 
-### 1. Five-Layer Anti-Detection
+| Feature | Description |
+|---------|-------------|
+| **LLM Intelligence** | Real-time AI monitoring that learns, adapts, and optimizes crawl settings per domain |
+| **Tiered Alert System** | Critical issues auto-halt the crawl; warnings provide specific fix suggestions |
+| **Live Dashboard** | Real-time crawl metrics with plain-English explanations via server-sent events |
+| **Auto-Optimization** | LLM analyzes target domains and selects optimal crawler configuration |
+| **Persistent Learning** | Remembers what works per domain across sessions |
+| **Privacy-First** | All processing runs locally — no data leaves the machine unless explicitly enabled |
+| **Multi-Format Export** | HTML mirror, Markdown, knowledge base vault, vector search |
+| **Media Pipeline** | Video (HLS/DASH), audio, PDF, subtitles with quality selection |
 
-The system addresses bot detection at every layer where modern anti-bot platforms operate:
+---
 
-| Layer | What Anti-Bot Systems Check | What Top Crawler Does |
-|-------|----------------------------|----------------------|
-| **TLS** | Cipher suite order, extensions, handshake patterns | Matches real browser signatures exactly |
-| **HTTP/2** | SETTINGS frames, header ordering, stream priorities | Reproduces authentic browser protocol behavior |
-| **Browser Fingerprint** | Canvas, WebGL, audio, fonts, plugins, screen, hardware | Generates internally consistent, hardware-realistic personas |
-| **Behavioral** | Mouse movement, scroll patterns, typing cadence, timing | Simulates natural human interaction patterns |
-| **Network** | IP reputation, DNS queries, connection patterns | Full encryption chain with residential IP support |
+## Architecture Overview
 
-### 2. AI-Powered Adaptive Evasion
-
-An integrated AI monitor observes crawl health in real-time and autonomously adjusts strategy:
-
-- **Detection Response:** When blocking signals appear (CAPTCHAs, soft blocks, degraded content), the AI automatically escalates through the Invisibility Hierarchy — rotating identity, switching network paths, adjusting behavior patterns
-- **Per-Domain Learning:** The system remembers what works for each target domain across sessions
-- **Tiered Alerts:** Critical issues trigger automatic halt. Warnings trigger strategy adjustment. All decisions are logged with reasoning.
-
-### 3. Full-Spectrum Privacy Chain
-
-Every network layer is encrypted and anonymized. No single point of failure exposes the operator:
+Top Crawler is a modular Python application with five subsystems:
 
 ```
-Application Layer    → Metadata scrubbed from all artifacts
-     ↓
-Browser Layer        → Identity firewall isolates sessions
-     ↓
-DNS Layer            → Encrypted resolution (DNS-over-HTTPS)
-     ↓
-Transport Layer      → VPN tunnel (3 provider integrations)
-     ↓
-Anonymity Layer      → Onion routing with circuit rotation
-     ↓
-Target Site          → Sees only a normal browser from a residential IP
+┌─────────────────────────────────────────────────┐
+│              CLI / Web Dashboard                 │
+├──────────┬──────────┬──────────┬────────────────┤
+│  Crawl   │  LLM     │  Config  │   Storage &    │
+│  Engine  │  Monitor │  Manager │   Archival     │
+├──────────┴──────────┴──────────┴────────────────┤
+│              Network & Transport Layer           │
+└─────────────────────────────────────────────────┘
 ```
 
----
-
-## Capability Overview
-
-| Capability | Details | Value |
-|------------|---------|-------|
-| **Anti-Detection** | Defeats Cloudflare, DataDome, PerimeterX, Akamai Bot Manager, and custom WAF rules | Access protected content that blocks conventional crawlers |
-| **Stealth Profiles** | 3 preset identities — authenticated, anonymous slow, anonymous fast | Match crawl approach to target sensitivity |
-| **Identity Firewall** | Complete session isolation between authenticated and anonymous operations | Operator identity never leaks to anonymous crawls |
-| **AI Monitoring** | Real-time LLM analysis with tiered emergency alerts and auto-halt | Autonomous operation without manual oversight |
-| **Fingerprint Optimization** | AI analyzes target domain defenses and selects optimal browser persona | Automatic adaptation to each site's detection stack |
-| **Media Pipeline** | Video (HLS/DASH/streaming), audio, PDF, subtitles with quality selection | Complete site archival including multimedia |
-| **Export Formats** | HTML mirror, Markdown, knowledge base vault, vector database for semantic search | Content accessible in any downstream workflow |
-| **URL Scoping** | 6 constraint modes — from single page to full subdomain traversal | Precision control over crawl boundaries |
-| **Resumable Crawls** | Checkpoint persistence with full state recovery | Long-running crawls survive interruptions |
-| **Circuit Breaker** | Per-domain failure detection with automatic backoff and recovery | Self-healing operation across unreliable targets |
-| **Metadata Scrubbing** | GPS, author, timestamps stripped from all downloaded artifacts | No operator fingerprints in saved content |
-| **Privacy-First Defaults** | All external APIs disabled by default — everything runs locally | Zero data leaves the machine unless explicitly enabled |
+- **Crawl Engine** — Fully async page fetching, media extraction, link following with configurable depth, scope, and rate limiting
+- **LLM Monitor** — Local language model (Ollama) observing crawl health in real-time with tiered alerts and automatic strategy adjustments
+- **Config Manager** — Per-domain configuration with LLM-suggested optimization, persistent across sessions
+- **Storage & Archival** — SQL + full-text search (FTS5), vector embeddings for semantic search, checkpoint persistence for resumable crawls
+- **Network Layer** — Configurable transport with connection pooling, circuit breaker patterns, retry logic, and respectful crawling practices
 
 ---
 
-## Metrics
+## Technical Highlights
 
-| Metric | Value |
-|--------|-------|
-| Anti-detection layers | 5 (TLS, HTTP/2, fingerprint, behavioral, network) |
-| Invisibility Hierarchy levels | 4 (invisible → indistinguishable → untraceable → minimal) |
-| Stealth profiles | 3 (authenticated, anonymous slow, anonymous fast) |
-| Crawl presets | 4 (video grabber, PDF collector, markdown archive, full archive) |
-| URL constraint modes | 6 (none, host, host+1, subdomains, directory, custom) |
-| VPN provider integrations | 3 (with kill switch and leak verification) |
-| Configuration parameters | 147 (dataclass-based, CLI-configurable) |
-| Export formats | 4 (HTML, Markdown, knowledge base vault, vector search) |
-| Media support | HLS, DASH, streaming video, audio, PDF, subtitles (VTT/SRT) |
-| Development phases | 13 planned (6 complete, 7 in roadmap) |
-| Architecture | Fully async, concurrent with rate limiting and circuit breaking |
-| AI integration | Local LLM monitoring with real-time adaptive optimization |
-
----
-
-## Anti-Detection Benchmark Targets
-
-Top Crawler is tested against the industry's detection platforms:
-
-| Target | Category | Goal |
-|--------|----------|------|
-| Cloudflare Bot Management | Commercial CDN-level detection | Pass without challenge |
-| DataDome | E-commerce bot protection | Pass without block |
-| PerimeterX / HUMAN | Enterprise behavioral analysis | Pass without block |
-| Akamai Bot Manager | CDN fingerprinting + anomaly detection | Pass without block |
-| CreepJS | Open-source fingerprint analysis | < 30% detection score |
-| BrowserLeaks | Canvas, WebGL, WebRTC, fonts, audio | All checks green |
-| TLS fingerprint verification | JA3/JA4 hash matching | Match real browser exactly |
-| HTTP/2 fingerprint verification | SETTINGS, headers, priority | Match real browser exactly |
-| DNS/IP leak tests | WebRTC, DNS, IPv6 leak detection | Zero leaks |
-| CAPTCHA trigger rate | Across 100+ page crawls on protected sites | < 5% trigger rate |
+- **13-phase development plan** covering foundation, transport, browser simulation, behavioral modeling, monitoring, storage, and testing
+- **Modular plugin architecture** — each layer is an independent module with its own test suite
+- **Apple Silicon optimized** — runs local LLM inference on M-series hardware via Ollama
+- **Circuit breaker patterns** — per-domain failure tracking with automatic backoff and recovery
+- **147 configuration parameters** — full control over crawl behavior, export, and network settings
 
 ---
 
@@ -136,51 +70,59 @@ This project maps directly to CompTIA Network+ and Security+ exam objectives:
 | Concept | Net+ Coverage | Sec+ Coverage |
 |---------|--------------|---------------|
 | TLS/SSL and cipher suites | Protocol analysis, certificate chains | Cryptographic concepts, PKI |
-| DNS resolution and encryption | DNS record types, name resolution | DNS attacks, privacy controls |
-| VPN and tunneling | VPN protocols, network topologies | Anonymization, VPN security |
-| Browser fingerprinting | HTTP headers, cookies, sessions | Client-side attacks, tracking |
-| Rate limiting and evasion | Bandwidth management, QoS | DoS/DDoS, throttling concepts |
+| DNS resolution and encryption | DNS record types, name resolution | DNS privacy controls |
+| VPN and tunneling | VPN protocols, network topologies | VPN security |
+| Rate limiting | Bandwidth management, QoS | Availability, resilience |
 | Circuit breaker patterns | Connection management, fault tolerance | Availability, resilience |
 | Metadata and forensics | File formats, EXIF data | Data sanitization, forensic analysis |
-| Network anonymization | Proxy types, NAT, routing | IP spoofing, network attacks |
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
+| Component | Technology |
+|-----------|-----------|
 | Language | Python 3.14+ |
-| Async Engine | Fully concurrent with connection pooling and rate control |
-| Browser Automation | Headless browser with stealth patches and fingerprint injection |
-| AI/LLM | Local language model integration for real-time monitoring |
-| Database | Embedded SQL with full-text search (FTS5) |
-| Vector Search | Embedding-based semantic search across crawled content |
-| Web Dashboard | Real-time streaming UI with server-sent events |
-| Network Privacy | Onion routing, VPN tunneling, encrypted DNS, proxy rotation |
-| Media Processing | Streaming protocol support, subtitle extraction, transcription |
-| Security | Static analysis, dependency auditing, pre-commit scanning |
+| Async Runtime | asyncio + httpx |
+| Browser Automation | Playwright |
+| LLM Integration | Ollama (local inference) |
+| Database | SQLite + FTS5 |
+| Vector Search | Embedding-based semantic search |
+| Dashboard | Real-time SSE streaming UI |
+| Testing | pytest |
+| Platform | macOS (Apple Silicon), Linux |
 
 ---
 
-## System Design
+## Metrics
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for the full system design with C4 diagrams covering:
-
-- System context and external integrations
-- Container architecture and component relationships
-- Primary data flow through the crawl pipeline
-- Security posture and privacy chain design
-- Key architectural decisions with rationale
+| Metric | Value |
+|--------|-------|
+| Configuration parameters | 147 |
+| Crawl presets | 4 (video grabber, PDF collector, markdown archive, full archive) |
+| URL constraint modes | 6 (none, host, host+1, subdomains, directory, custom) |
+| Export formats | 4 (HTML, Markdown, knowledge base vault, vector search) |
+| Media support | HLS, DASH, streaming video, audio, PDF, subtitles (VTT/SRT) |
+| Development phases | 13 planned |
+| Architecture | Fully async, concurrent with rate limiting and circuit breaking |
+| AI integration | Local LLM monitoring with real-time adaptive optimization |
 
 ---
 
 ## Status
 
-Active development. 6 phases complete, 7 more planned. Currently in the anti-detection evolution phase — adding TLS fingerprinting, HTTP/2 matching, timing defenses, and AI-driven adaptive evasion.
-
-Near-term target: Live demonstration for CompTIA Net+/Sec+ class.
+**Pre-prototype** — Architecture designed, 13-phase DevPlan complete, foundation modules implemented. Currently paused while higher-priority projects are in active development.
 
 ---
 
-Copyright 2026 TJ Neary. All Rights Reserved.
+## About This Repository
+
+This is a **showcase repository** — a curated view of a private development project. It demonstrates architecture, design decisions, and technical approach without exposing implementation details.
+
+**Interested in the technical details?** See [inquiry.yml](inquiry.yml) for how to request access to the full codebase.
+
+---
+
+*Part of [TJ Neary's](https://github.com/TJ-Neary) 15-project AI engineering portfolio.*
+
+*Copyright 2026 TJ Neary. All Rights Reserved.*
